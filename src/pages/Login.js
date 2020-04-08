@@ -87,7 +87,7 @@ class Login extends Component {
   
         auth.signInWithEmailAndPassword(username+'@like.thc', password)
           .then((authData) => {
-              console.log("User created successfully with payload-", authData);
+              console.log("User created successfully with payload-", this.props);
               this.props.history.push('/')
           }).catch((_error) => {
             this.setState({error: _error.message})
