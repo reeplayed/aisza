@@ -60,7 +60,6 @@ class Login extends Component {
                               displayName: username
                             })
                         ])
-                        .then( this.props.history.push('/'))
                   })
                   .catch(err=>this.setState({error: err.message}))
     }

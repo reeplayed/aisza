@@ -35,6 +35,7 @@ class App extends Component {
                 loading: false
               })
           }
+          this.props.history.push('/')
       }
       else{
           this.setState({isAuthenticated: false, displayName: '', loading: false})
