@@ -32,7 +32,7 @@ const Wrapper = styled.button`
 export const MenuButton = () => {
     return (
         <ButtonWrapper>
-            <Link to='/menu/'>
+            <Link to='/'>
                 <Button padding='2px 5px' >
                     <MenuIcon/>
                 </Button>
