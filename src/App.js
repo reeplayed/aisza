@@ -55,7 +55,7 @@ class App extends Component {
           <BrowserRouter>
                 <Route exact path="/" render={(props) => this.state.isAuthenticated ? <Menu {...props} user={this.state}/> : <Redirect to="/login" />}/>
                 <Route exact path='/room/:id' render={(props) => <GameRoom {...props} user={this.state} />}/>
-                <Route exact path="/login" component={Login} />
+                <Route exact path="/login"  render={(props) => !this.state.isAuthenticated ? <Login {...props} user={this.state}/> : <Redirect to="/" />} />
                 <Route exact path="/singleplayer" component={SinglePlayer} />
           </BrowserRouter>
         </UserContext.Provider>
