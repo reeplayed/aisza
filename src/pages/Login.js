@@ -60,7 +60,7 @@ class Login extends Component {
                               displayName: username
                             })
                         ])
-                        .then( this.props.history.push('/menu'))
+                        .then( this.props.history.push('/'))
                   })
                   .catch(err=>this.setState({error: err.message}))
     }
@@ -88,7 +88,7 @@ class Login extends Component {
         auth.signInWithEmailAndPassword(username+'@like.thc', password)
           .then((authData) => {
               console.log("User created successfully with payload-", authData);
-              this.props.history.push('/menu/')
+              this.props.history.push('/')
           }).catch((_error) => {
             this.setState({error: _error.message})
               console.log("Login Failed!", _error);
