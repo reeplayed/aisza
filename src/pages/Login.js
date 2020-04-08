@@ -201,7 +201,7 @@ class Login extends Component {
 
 
 const InputWrapper = styled.div`
-    width: 400px;   
+    width: 260px;   
     margin-bottom: 10px ;
     display: flex;
     flex-direction: column;
@@ -210,7 +210,7 @@ const InputWrapper = styled.div`
 `
 
 const Container = styled.main`
-    width: 500px;
+    max-width: 500px;
     margin: 50px auto;
     
 `
