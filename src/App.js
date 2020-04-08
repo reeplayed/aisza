@@ -34,8 +34,8 @@ class App extends Component {
                 uid: user.uid,
                 loading: false
               })
+              this.props.history.push('/')
           }
-          this.props.history.push('/')
       }
       else{
           this.setState({isAuthenticated: false, displayName: '', loading: false})
