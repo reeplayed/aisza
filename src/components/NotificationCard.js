@@ -81,10 +81,12 @@ const NotificationCard = ({type, username, uid, game_room, status}) => {
 
                 Promise.all([
                     db.collection('game_invitations').doc(user.uid).collection('inv_from_uid').doc(uid).update({
+                        username: username,
+                        game_room: game_room,
                         status: 'in_game'
                     }),
                     db.collection('game_invitations').doc(uid).collection('inv_from_uid').doc(user.uid).set({
-                        username: username,
+                        username: user.displayName,
                         game_room: game_room,
                         status: 'in_game'
                       })

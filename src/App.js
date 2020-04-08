@@ -52,10 +52,10 @@ class App extends Component {
       <div className='container'>
         <UserContext.Provider value={this.state}>
           <BrowserRouter>
+                <Route exact path="/" render={(props) => this.state.isAuthenticated ? <Menu {...props} user={this.state}/> : <Redirect to="/login" />}/>
                 <Route path='/room/:id' render={(props) => <GameRoom {...props} user={this.state} />}/>
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/singleplayer" component={SinglePlayer} />
-                <Route exact path="/" render={(props) => this.state.isAuthenticated ? <Menu {...props} user={this.state}/> : <Redirect to="/login" />}/>
           </BrowserRouter>
         </UserContext.Provider>
       </div>  
