@@ -178,7 +178,7 @@ class GameRoom extends Component {
                                             <PointsProgress size={7}/>
                                         ): (
                                             <Typography fontSize='1.2rem' color='light' type='span'>
-                                                Generate 
+                                                Generate ships
                                             </Typography>
                                         )}        
                                     </Button>
@@ -231,7 +231,7 @@ class GameRoom extends Component {
                     </BorderWrapper>
                     
                 </BordersContainer>
-                {!winner && (
+                {winner && (
                     <ButtonWrapper>
                     <Button margin='10px 0' width='140px' onClick={this.playAgainHandler}>
                             <Typography fontSize='1.2rem' color='light' type='span'>

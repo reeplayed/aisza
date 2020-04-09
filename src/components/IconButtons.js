@@ -11,6 +11,7 @@ import {
     RemoveIcon, 
     BinIcon
 } from '../svg/Icons';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const ButtonWrapper = styled.div`
     position:absolute;
@@ -51,26 +52,36 @@ export const LogoutButton = ({onclick}) => {
     );
 };
 
-export const GameRequestButton = ({onclick}) => (
-    <Wrapper onClick={onclick}>
-        <GameIcon/>
-    </Wrapper>
+export const GameRequestButton = ({onclick, tooltip}) => (
+    <Tooltip title={tooltip}>
+        <Wrapper onClick={onclick}>
+            <GameIcon/>
+        </Wrapper>
+    </Tooltip>
+    
 )
 
-export const AcceptButton = ({onclick}) => (
-    <Wrapper onClick={()=>onclick(true)}>
-        <AcceptIcon/>
-    </Wrapper>
+export const AcceptButton = ({onclick, tooltip}) => (
+    <Tooltip title={tooltip}>
+        <Wrapper onClick={()=>onclick(true)}>
+            <AcceptIcon/>
+        </Wrapper>
+    </Tooltip> 
 )
 
-export const RemoveButton = ({onclick}) => (
-    <Wrapper onClick={()=>onclick(false)}>
-        <RemoveIcon/>
-    </Wrapper>
+export const RemoveButton = ({onclick, tooltip}) => (
+    <Tooltip title={tooltip}>
+        <Wrapper onClick={()=>onclick(false)}>
+            <RemoveIcon/>
+        </Wrapper>
+    </Tooltip>
 )
 
-export const BinButton = ({onclick}) => (
-    <Wrapper onClick={onclick}>
-        <BinIcon/>
-    </Wrapper>
+export const BinButton = ({onclick, tooltip}) => (
+    <Tooltip title={tooltip}>
+        <Wrapper onClick={onclick}>
+            <BinIcon/>
+        </Wrapper>
+    </Tooltip>
+    
 )

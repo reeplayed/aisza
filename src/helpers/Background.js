@@ -12,7 +12,7 @@ const Background = () => (
             
             <div className='figure_small'>
                 <div className='figure_container'>
-                    <span className='figure_inner'/>
+                    <span className='figure_inner_point'/>
                 </div>  
             </div>      
 

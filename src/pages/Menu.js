@@ -9,8 +9,7 @@ import Link from '../helpers/StyledLink';
 import FriendsCard from '../components/FriendsCard';
 import NotificationCard from '../components/NotificationCard'
 import {auth, db} from '../firebaseConfig'
-import { UserContext } from '../userContext';
-import _ from 'lodash';
+import {PointsProgress} from '../components/Progress';
 
 const Menu = (props) => {
 
@@ -27,6 +26,7 @@ const Menu = (props) => {
     const [friendsList, setFriendsList] = useState([]);
     const [friendRequests, setFriendRequests] = useState([])
     const [gameInvitations, setGameInvitiaions] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(()=>{
 
@@ -86,11 +86,18 @@ const Menu = (props) => {
         if(addFriendInput===user.displayName){
           return setError("You can't invite yourself.")
         }
-  
+        
+        setLoading(true)
+
         db.collection("usernames").doc(addFriendInput).get().then(doc=> {
           if (doc.exists) {
-              
-              db.collection('invitations').doc(user.uid).collection('inv_from_uid').doc(doc.data().uid).get()
+               db.collection('invitations').doc(doc.data().uid).collection('inv_from_uid').doc(user.uid).get()
+                .then((d)=>{
+                  if(d.exists){
+                    setError('You have already invite this user.')
+                  }
+                })
+               db.collection('invitations').doc(user.uid).collection('inv_from_uid').doc(doc.data().uid).get()
                 .then(document=>{
   
                   if(document.exists){
@@ -114,13 +121,14 @@ const Menu = (props) => {
                             game_status: 'off'
                           })
                         ])
+                        .then(()=>setError(''))
                         .catch(err=>alert(err))  
                       })
                   }
   
                   else{
   
-                    db.collection('friends').doc(user.uid).collection('friends_uid').doc(doc.data().uid).get()
+                    return db.collection('friends').doc(user.uid).collection('friends_uid').doc(doc.data().uid).get()
                       .then((docmnt)=>{
                         
                         if(docmnt.exists){
@@ -128,24 +136,27 @@ const Menu = (props) => {
                         }
   
                         else{
-                          console.log(doc.data())
+                          
                           db.collection('invitations').doc(doc.data().uid).collection('inv_from_uid').doc(user.uid).set({
                             username: user.displayName
                           })
+                          
                         }
                       })
                       .catch(err=>setError(err.message))
                   }
                 })
                 .catch(err=>{
-                  setError("Connection errorer.")
+                  setError(err.message)
                 })
-          } else {
-              setError("User with that username doesn't exists.")
-          }
-          }).catch(function(error) {
-            setError("Connection error.")
-          });
+                
+            } else {
+                setError("User with that username doesn't exists.")
+            }
+            }).catch(function(error) {
+              setError(error.message)
+            })
+            .finally(()=>setLoading(false))
     }
     const friendsListComponent = friendsList.map((user)=> <FriendsCard username={user.username} uid={user.uid} game_room={user.game_room} />)
     
@@ -195,9 +206,13 @@ const Menu = (props) => {
                     <ButtonsWrapper>
                         
                         <Button width='130px' onClick={sendFriendRequestHandler}>
+                          {loading ? (
+                            <PointsProgress size='7'/>
+                          ):(
                             <Typography fontSize='1.2rem' color='light' type='span'>
                                 Send invite
                             </Typography>
+                          )}
                         </Button>
                         
                         <Wrapper>

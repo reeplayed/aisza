@@ -12,6 +12,7 @@ import { AcceptButton, RemoveButton } from './IconButtons';
 import StyledCard from './StyledCard';
 import { UserContext } from '../userContext';
 import { useHistory } from "react-router-dom";
+import {Tooltip} from '@material-ui/core';
 
 
 
@@ -122,9 +123,18 @@ const NotificationCard = ({type, username, uid, game_room, status}) => {
             
             <ButtonsWrapper>
                 
-                {status!=='in_game' && <AcceptButton onclick={type==='game' ? gameResponseHandler : friendResponseHandler}/>}
+                {status!=='in_game' && <AcceptButton 
+                                            onclick={type==='game' ? gameResponseHandler : friendResponseHandler}
+                                            tooltip='Agree'
+                                            />}
+               
+                <RemoveButton 
+                    onclick={type==='game' ? gameResponseHandler : friendResponseHandler}
+                    tooltip={status==='in_game' ? 'Finish the game' : 'Disagree'}
+                    />
 
-                <RemoveButton onclick={type==='game' ? gameResponseHandler : friendResponseHandler}/>
+              
+
 
             </ButtonsWrapper>
 

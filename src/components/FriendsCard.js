@@ -11,6 +11,7 @@ import Input from '../components/StyledInput';
 import { GameRequestButton, BinButton } from './IconButtons';
 import StyledCard from './StyledCard';
 import {UserContext} from '../userContext';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const FriendsCard = ({username, uid, game_room}) => {
@@ -22,7 +23,7 @@ const FriendsCard = ({username, uid, game_room}) => {
         db.collection('game_invitations').doc(user.uid).collection('inv_from_uid').doc(uid).get()
             .then((doc)=>{
                 if(doc.exists){
-                    alert('you have already invited this user.')
+                    alert('You have already invited this user.')
                 }
                 else{
 
@@ -54,8 +55,19 @@ const FriendsCard = ({username, uid, game_room}) => {
                         </Typography>
 
                         <ButtonsWrapper>
-                            <GameRequestButton onclick={sendInvitationForGameHandler}/>
-                            <BinButton onclick={removeFriendHandler}/>
+                   
+                                <GameRequestButton 
+                                    onclick={sendInvitationForGameHandler}
+                                    tooltip='Invite to game'
+                                    />
+
+                                <BinButton 
+                                    onclick={removeFriendHandler}
+                                    tooltip='Remove friend'
+                                    />
+
+                            
+                         
                         </ButtonsWrapper>
                
            

@@ -21,10 +21,6 @@ const BoardContainer = styled.div`
     @media(max-width: 520px){
         width: 270px;
     }
-
-    // @media(max-width: 520px){
-    //     width: 40px;
-    // }
 `;
 const Backdrop = styled.div`
     position:absolute;
