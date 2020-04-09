@@ -6,6 +6,7 @@ export default styled.button`
     border: 1px solid orange;
     outline: none;
     border-radius: 50px;
+    margin: ${({margin})=>margin};
     background: ${({background, theme})=> {
         switch(background){
             case 'primary':

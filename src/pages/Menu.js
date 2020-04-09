@@ -20,7 +20,7 @@ const Menu = (props) => {
         auth.signOut()
     }
 
-    const user = useContext(UserContext)
+    const user = props.user
 
     const [addFriendInput, setInputValue] = useState('')
     const [error, setError] = useState('');

@@ -8,6 +8,7 @@ import _ from 'lodash';
 import Button from '../helpers/Button';
 import Link from '../helpers/StyledLink';
 import Input from '../components/StyledInput';
+import {PointsProgress} from '../components/Progress'
 
 class Login extends Component {
     constructor(props){
@@ -18,14 +19,20 @@ class Login extends Component {
             password: '',
             confirm_password: '',
             registrationMode: false,
-            error: ''
+            error: '',
+            loading_in:false,
+            loading_up: false
         }
     }
    
     signUpHandler = e =>{
         e.preventDefault()
 
-        const {username, password, confirm_password, registrationMode} = this.state
+        const {username, password, confirm_password, registrationMode, loading_up} = this.state
+
+        if(loading_up){
+            return
+        }
 
         if(registrationMode===false){
             this.setState({
@@ -44,10 +51,12 @@ class Login extends Component {
           if(password !== confirm_password){
             return this.setState({error: "Password and confirm password does not match."})
           }
-          
+         
+          this.setState({loading_up: true})
+
           auth.createUserWithEmailAndPassword(username+'@like.thc', password)
                   .then((authData) => {
-                     Promise.all([
+                     return Promise.all([
                         
                         db.collection('users').doc(authData.user.uid).set({
                           email: authData.user.email,
@@ -60,18 +69,19 @@ class Login extends Component {
                               displayName: username
                             })
                         ])
-                        .then(()=>{
-                            this.props.history.push('/')
-                            
-                        })
                   })
                   .catch(err=>this.setState({error: err.message}))
+                  .finally(()=>this.setState({loading_up: false}))
     }
 
     signInHandler = e => {
         e.preventDefault()
 
-        const {username, password, confirm_password, registrationMode} = this.state
+        const {username, password, registrationMode, loading_in} = this.state
+
+        if(loading_in){
+            return
+        }
 
         if(registrationMode===true){
             this.setState({
@@ -87,7 +97,9 @@ class Login extends Component {
         if(!username || !password){
             return this.setState({error: "Field can't be empty."})
           }
-  
+        
+        this.setState({loading_in: true})
+        
         auth.signInWithEmailAndPassword(username+'@like.thc', password)
           .then((authData) => {
               console.log("User created successfully with payload-", this.props);
@@ -96,15 +108,15 @@ class Login extends Component {
             this.setState({error: _error.message})
               console.log("Login Failed!", _error);
           })
+          .finally(this.setState({loading_in: false}))
     }
 
     onChangeHandler = (e) => this.setState({[e.target.name]: e.target.value})
     
-   
 
     render() {
 
-        const {username, password, confirm_password, registrationMode, error} = this.state
+        const {username, password, confirm_password, registrationMode, error, loading_in, loading_up} = this.state
        
         return (
             <Container>
@@ -159,17 +171,26 @@ class Login extends Component {
 
                             <ButtonWrapper>
                                 <Button onClick={e => this.signInHandler(e)}>
-                                    <Typography fontSize='1.2rem' color='light' type='span'>
-                                        Sign In
-                                    </Typography>
+                                    {loading_in ? (
+                                        <PointsProgress size={7}/>
+                                    ):(
+                                        <Typography fontSize='1.2rem' color='light' type='span'>
+                                            Sign In
+                                        </Typography>
+                                    )}
+
                                 </Button>
                             </ButtonWrapper>
 
                             <ButtonWrapper>
                                 <Button onClick={e => this.signUpHandler(e)}>
-                                    <Typography fontSize='1.2rem' color='light' type='span'>
-                                        Sign Up
-                                    </Typography>
+                                    {loading_up ? (
+                                        <PointsProgress size={7}/>
+                                    ):(
+                                        <Typography fontSize='1.2rem' color='light' type='span'>
+                                         Sign Up
+                                        </Typography>
+                                    )}
                                 </Button>
                             </ButtonWrapper>
 

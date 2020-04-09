@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { useParams } from 'react-router-dom';
-import {db} from '../firebaseConfig';
+import {db, auth} from '../firebaseConfig';
 import { LinearProgress, PointsProgress } from '../components/Progress';
 import Board from '../components/Board';
 import styled from 'styled-components'
@@ -42,7 +42,7 @@ class GameRoom extends Component {
                     }
                 }
                 else {
-                    this.props.history.push('/menu')
+                    this.props.history.push('/')
                 }
                 
         });
@@ -75,13 +75,27 @@ class GameRoom extends Component {
         .catch(err=>alert(err))
     }
 
-    gameEndHandler = () => {
+    endGameHandler = () => {
         Promise.all([
             db.collection('game_invitations').doc(this.user.uid).collection('inv_from_uid').doc(this.state[this.user.uid]).delete(),
         
             db.collection('game_invitations').doc(this.state[this.user.uid]).collection('inv_from_uid').doc(this.user.uid).delete()
         ])
         .catch(err=> alert(err))
+    }
+    playAgainHandler = () => {
+        const data = {
+            ['ready_'+ this.user.uid] : false,
+            ['ready_'+ this.state[this.user.uid]] : false,
+            ['data_'+ this.user.uid] : {},
+            ['data_'+ this.state[this.user.uid]] : {},
+            winner: ''
+        }
+
+        db.collection('game_rooms').doc(this.room_id).update(data)
+        .catch(err => alert(err.message))
+
+        this.setState({...data})
     }
 
     hitHandler = (index, name) => {
@@ -99,7 +113,6 @@ class GameRoom extends Component {
 
                 delete copy_ships[name]
                 if(_.isEmpty(copy_ships)){
-                    this.gameEndHandler()
                     winner = user.uid
                 }
                 copy_border[name].map(i=>{
@@ -216,9 +229,22 @@ class GameRoom extends Component {
                             winner={winner}
                             />
                     </BorderWrapper>
-                
+                    
                 </BordersContainer>
-
+                {!winner && (
+                    <ButtonWrapper>
+                    <Button margin='10px 0' width='140px' onClick={this.playAgainHandler}>
+                            <Typography fontSize='1.2rem' color='light' type='span'>
+                                Play again
+                            </Typography>          
+                    </Button>
+                    <Button width='100px' onClick={this.endGameHandler}>
+                            <Typography fontSize='1.2rem' color='light' type='span'>
+                                Exit
+                            </Typography>          
+                    </Button>
+                    </ButtonWrapper>
+                )}
             </React.Fragment>
         )
 
@@ -261,5 +287,14 @@ const BorderWrapper = styled.div`
     @media(max-width: 640px){
         margin: 60px 20px 0 20px;
     }
+`;
+const ButtonWrapper = styled.div`
+   
+    display:flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+
+
 `;
 export default GameRoom;
