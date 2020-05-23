@@ -9,7 +9,7 @@ import Button from '../helpers/Button';
 import Link from '../helpers/StyledLink';
 import Input from '../components/StyledInput';
 import {PointsProgress} from '../components/Progress'
-import { useForm } from "react-hook-form";
+
 
 
 class Login extends Component {
@@ -198,13 +198,6 @@ class Login extends Component {
 
                         </FormContainer>
                     </form>               
-                    {/* <ButtonWrapper>
-                        <Button>
-                            <Typography fontSize='1.2rem' color='light' type='span'>
-                                Sign In with Google
-                            </Typography>
-                        </Button>
-                    </ButtonWrapper> */}
                     <Typography fontSize='1.1rem' color='light' type='span'>
                         OR
                     </Typography>  

@@ -1,29 +1,37 @@
 import React, { Component, useContext } from 'react';
 import {auth, db} from '../firebaseConfig';
-import Logo from '../components/Logo';
-import GradientContainer from '../helpers/LinearGradientContainer'
 import Typography from '../helpers/Typography'
 import styled , {css} from 'styled-components';
 import _ from 'lodash';
-import Button from '../helpers/Button';
-import Link from '../helpers/StyledLink';
-import Input from '../components/StyledInput';
 import { GameRequestButton, BinButton } from './IconButtons';
 import StyledCard from './StyledCard';
 import {UserContext} from '../userContext';
-import Tooltip from '@material-ui/core/Tooltip';
+import Snackbar from '@material-ui/core/Snackbar';
+
 
 
 const FriendsCard = ({username, uid, game_room}) => {
 
     const user = useContext(UserContext)
 
+    const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState('');
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+    };
+
     const sendInvitationForGameHandler = () => {
 
         db.collection('game_invitations').doc(user.uid).collection('inv_from_uid').doc(uid).get()
             .then((doc)=>{
                 if(doc.exists){
-                    alert('You have already invited this user.')
+                    setMessage('You have already invited this user.');
+                    setOpen(true);
                 }
                 else{
 
@@ -31,6 +39,10 @@ const FriendsCard = ({username, uid, game_room}) => {
                         username: user.displayName,
                         game_room: game_room,
                         status: 'game_request'
+                      })
+                      .then(()=>{
+                        setMessage('Send invite.');
+                        setOpen(true);
                       })
                 }
             })
@@ -47,31 +59,37 @@ const FriendsCard = ({username, uid, game_room}) => {
     }
 
     return (
-        <StyledCard>
-            
+        <>
+            <StyledCard>
+                <Typography fontSize='1.1rem' color='light' type='span'>
+                    {username}
+                </Typography>
 
-                        <Typography fontSize='1.1rem' color='light' type='span'>
-                            {username}
-                        </Typography>
+                    <ButtonsWrapper>
+                    
+                        <GameRequestButton 
+                            onclick={sendInvitationForGameHandler}
+                            tooltip='Invite to game'
+                            />
 
-                        <ButtonsWrapper>
-                   
-                                <GameRequestButton 
-                                    onclick={sendInvitationForGameHandler}
-                                    tooltip='Invite to game'
-                                    />
+                        <BinButton 
+                            onclick={removeFriendHandler}
+                            tooltip='Remove friend'
+                            />
 
-                                <BinButton 
-                                    onclick={removeFriendHandler}
-                                    tooltip='Remove friend'
-                                    />
-
-                            
-                         
-                        </ButtonsWrapper>
-               
-           
-        </StyledCard>
+                    </ButtonsWrapper>
+            </StyledCard>
+            <Snackbar
+                anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+                }}
+                onClose={handleClose}
+                open={open}
+                autoHideDuration={4000}
+                message={message}
+            />
+        </>
     );
 };
 

@@ -135,7 +135,6 @@ const NotificationCard = ({type, username, uid, game_room, status}) => {
 
               
 
-
             </ButtonsWrapper>
 
                     

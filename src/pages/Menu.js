@@ -10,6 +10,7 @@ import FriendsCard from '../components/FriendsCard';
 import NotificationCard from '../components/NotificationCard'
 import {auth, db} from '../firebaseConfig'
 import {PointsProgress} from '../components/Progress';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const Menu = (props) => {
 
@@ -27,7 +28,18 @@ const Menu = (props) => {
     const [friendRequests, setFriendRequests] = useState([])
     const [gameInvitations, setGameInvitiaions] = useState([])
     const [loading, setLoading] = useState(false)
-
+    
+    const [open, setOpen] = useState(false)
+    const [message, setMessage] = useState('')
+    
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
+    
     useEffect(()=>{
 
         db.collection("invitations").doc(user.uid).collection('inv_from_uid')
@@ -121,7 +133,11 @@ const Menu = (props) => {
                             game_status: 'off'
                           })
                         ])
-                        .then(()=>setError(''))
+                        .then(()=>{
+                          setError('');
+                          setMessage('Add friend.');
+                          setOpen(true)
+                        })
                         .catch(err=>alert(err))  
                       })
                   }
@@ -139,6 +155,10 @@ const Menu = (props) => {
                           
                           db.collection('invitations').doc(doc.data().uid).collection('inv_from_uid').doc(user.uid).set({
                             username: user.displayName
+                          })
+                          .then(()=>{
+                            setMessage('Send invite.');
+                            setOpen(true)
                           })
                           
                         }
@@ -254,6 +274,18 @@ const Menu = (props) => {
                    
                 </GradientContainer>
             </FriendsListContainer>
+
+            <Snackbar
+                anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+                }}
+                onClose={handleClose}
+                open={open}
+                autoHideDuration={4000}
+                message={message}
+            />
+
         </MainContainer>
     );
 };

@@ -9,7 +9,7 @@ import { UserContext } from './userContext';
 import GameRoom from './pages/GameRoom';
 import styled from 'styled-components';
 import LoadingComponent from './components/LoadingComponent';
-import TestMain from './components/Test';
+
 
 class App extends Component {
   constructor(props){
@@ -55,7 +55,6 @@ class App extends Component {
                 <Route exact path='/room/:id' render={(props) => <GameRoom {...props} user={this.state} />}/>
                 <Route exact path="/login"  render={(props) => !this.state.isAuthenticated ? <Login {...props}/> : <Redirect to="/" />} />
                 <Route exact path="/singleplayer" component={SinglePlayer} />
-                <Route exact path="/test" component={TestMain} />
           </BrowserRouter>
         </UserContext.Provider>
       </div>  

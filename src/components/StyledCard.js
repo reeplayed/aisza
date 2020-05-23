@@ -17,7 +17,4 @@ export default styled.div`
         `cursor: pointer; 
         background:`+theme.colors.opacity_gradient
         )};
-    // &:hover{
-    //    opacity: 0.8;
-    // }
 `

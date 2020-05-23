@@ -112,5 +112,11 @@ body{
   color: #364c63;
   font-size: 7rem;
   font-weight: 900;
+}
 
+.MuiPaper-root{
+  background: #222f3e !important;
+  border: 2px solid orangered;
+  border-radius: 15px !important;
+  font-family: 'Lobster', cursive !important;
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import GradientContainer from '../helpers/LinearGradientContainer'
-import Typography from '../helpers/Typography';
 
 const LabelContainer = styled.div`
     position: absolute;

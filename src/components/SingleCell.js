@@ -56,10 +56,6 @@ const Cell = styled.div`
         width: 25px;
         height: 25px;
     }
-
-    // @media(max-width: 520px){
-    //     width: 50px;
-    // }
 `;
 const Ship = styled.span`
     position: relative;
