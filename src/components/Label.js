@@ -22,6 +22,9 @@ const Digit = styled.span`
     color: ${({theme})=> theme.colors.light};
 `;
 
+
+
+
 const Label = ({chars, row}) => {
     return (
         
@@ -35,9 +38,8 @@ const Label = ({chars, row}) => {
                         </Digit>
                    
                 ))}
-                
+               
             </GradientContainer>
-                
         </LabelContainer>
             
     

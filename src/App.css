@@ -22,14 +22,27 @@ body{
   left: 6%;
   width: 30vw;
 }
+
+@media only screen and (max-width: 600px) {
+  .figure_big {
+    display: none;
+  }
+}
+
 .figure_small {
   position: absolute;
   height: 20vw;
   top: 10%;
   left: 50%;
   width: 20vw;
-  
 }
+
+@media only screen and (max-width: 800px) {
+  .figure_small {
+    display: none;
+  }
+}
+
 .figure_container{
   
   height: 100%;

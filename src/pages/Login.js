@@ -9,6 +9,8 @@ import Button from '../helpers/Button';
 import Link from '../helpers/StyledLink';
 import Input from '../components/StyledInput';
 import {PointsProgress} from '../components/Progress'
+import { useForm } from "react-hook-form";
+
 
 class Login extends Component {
     constructor(props){
@@ -108,7 +110,7 @@ class Login extends Component {
             this.setState({error: _error.message})
               console.log("Login Failed!", _error);
           })
-          .finally(this.setState({loading_in: false}))
+          .finally(()=>this.setState({loading_in: false}))
     }
 
     onChangeHandler = (e) => this.setState({[e.target.name]: e.target.value})
