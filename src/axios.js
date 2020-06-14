@@ -1,5 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export default axios.create({
-    baseURL: 'https://initializer.herokuapp.com'
+  baseURL: 'https://initializer.herokuapp.com',
 });

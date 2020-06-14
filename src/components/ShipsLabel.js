@@ -12,7 +12,7 @@ const Digit = styled.span`
     font-family: 'Lobster', cursive;
     display: block;
     font-size: 1.2em;
-    color: ${({theme, sunk})=>sunk ? theme.colors.light};
+    color: ${({theme, sunk})=>sunk && theme.colors.light};
 
 `;
 const VerticalDigit = styled(Digit)`
